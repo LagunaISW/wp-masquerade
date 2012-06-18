@@ -5,7 +5,7 @@ Author URI: http://castle-creative.com/
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
 Tested up to: 3.3.2
-Stable tag: 1.0
+Stable tag: 1.01
 License: General Public License version 2
 
 Adds a link to users.php that allows an administrator to login as that user without knowing the password.
@@ -26,6 +26,9 @@ Q: Why doesn't the Masquerade as User" link appear in the user list?
 A: For security reasons, the link only appears to users that have the 'delete_users' capability.
 
 == Change Log ==
+
+= 1.01 =
+* Added nonce security check to POST request
 
 = 1.0 =
 * First stable release

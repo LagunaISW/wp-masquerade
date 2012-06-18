@@ -3,7 +3,7 @@
 Plugin Name: Masquerade
 Plugin URI: http://castle-creative.com/
 Description: Adds a link to users.php that allows an administrator to login as that user without knowing the password.
-Version: 1.0
+Version: 1.01
 Author: JR King
 Author URI: http://castle-creative.com/
 License: General Public License version 2
@@ -48,6 +48,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 					var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
 					var data = {
 						action: 'masq_user',
+						wponce: '<?php echo wp_create_nonce('masq_once')?>',
 						uid: uid
 					}
 					jQuery.post(ajax_url, data, function(response) {
@@ -63,6 +64,8 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 
 	add_action('wp_ajax_masq_user', 'ajax_masq_login');
 		function ajax_masq_login() {
+			$wponce=$_POST['wponce'];
+			if (! wp_verify_nonce($wponce, 'masq_once') ) wp_die('Security check');
 			$uid = (int)($_POST['uid']);
 			$user_info = get_userdata($uid);
 			$uname = $user_info->user_login;
