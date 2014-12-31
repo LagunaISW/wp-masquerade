@@ -149,7 +149,7 @@ class WPMasquerade {
 			wp_logout();
 
 		$user_id   = $reset ? $_SESSION['wpmsq_active']->ID         : $uid;
-		$user_name = $reset ? $_SESSION['wpmsq_active']->user_login : get_userdata($uid);
+		$user_name = $reset ? $_SESSION['wpmsq_active']->user_login : get_userdata($uid)->user_login;
 
 		if($reset){
 			unset($_SESSION['wpmsq_active']);
