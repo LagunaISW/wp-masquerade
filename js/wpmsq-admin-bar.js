@@ -13,6 +13,7 @@ jQuery(function($){
 						.text(value['user_nicename'])
 						.appendTo($wpmasqSelect);
 				});
+				$wpmasqSelectParent.find('.three-bounce').hide();
 				$wpmasqSelect.chosen();
 			})
 			.fail(function(){
