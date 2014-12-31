@@ -115,13 +115,14 @@ class WPMasquerade {
 			?>
 				<script type="text/javascript">
 					(function($){
-						$('.masquerade-link').click(function(){
+						$('.masquerade-link').click(function(ev){
+							ev.preventDefault();
 							var ajax_url = '<?php echo admin_url("admin-ajax.php"); ?>';
 							var data = {
 								action: 'masq_user',
 								wponce: '<?php echo wp_create_nonce('masq_once')?>',
 								uid: $(this).data('uid')
-							}
+							};
 							$.post(ajax_url, data, function(response){
 								if(response == '1'){
 									window.location = "<?php echo site_url();?>"
@@ -135,7 +136,6 @@ class WPMasquerade {
 	}
 
 	public function ajax_masq_login(){
-
 		if(!isset($_POST['wponce']) || !wp_verify_nonce($_POST['wponce'], 'masq_once'))
 			wp_die('Security check');
 
@@ -168,7 +168,6 @@ class WPMasquerade {
 	}
 
 	public function ajax_get_users(){
-
 		if(!isset($_GET['n']) || !wp_verify_nonce($_GET['n'], 'wpmsq_get_users_nonce'))
 			wp_die('Security check');
 
@@ -185,7 +184,6 @@ class WPMasquerade {
 	}
 
 	public function add_admin_menu($wp_admin_bar){
-
 		if(!is_super_admin() || !is_admin_bar_showing())
 			return;
 
@@ -198,6 +196,7 @@ class WPMasquerade {
 			'title' => 'Masquerade as...',
 			'meta'  => array('html' => $html)
 		);
+
 		$wp_admin_bar->add_node($args);
 	}
 
@@ -211,7 +210,6 @@ class WPMasquerade {
 	}
 
 	public function register_notification_assets(){
-
 		if(!isset($_SESSION['wpmsq_active']))
 			return;
 

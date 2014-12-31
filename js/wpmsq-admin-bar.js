@@ -1,5 +1,4 @@
 'use strict';
-
 jQuery(function($){
 	var $wpmasqSelectParent = $('#wp-admin-bar-wpmsq-ab-link');
 	var $wpmasqSelect = $wpmasqSelectParent.find('select');

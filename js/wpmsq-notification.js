@@ -1,6 +1,7 @@
-"use strict";
+'use strict';
 jQuery(function($){
-	$('#wpmsq-revert-link').click(function(){
+	$('#wpmsq-revert-link').click(function(ev){
+		ev.preventDefault();
 		var ajax_url = wpmsqNotification.ajaxurl;
 		var data = {
 			action: 'masq_user',
