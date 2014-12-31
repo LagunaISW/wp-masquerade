@@ -42,6 +42,7 @@ class WPMasquerade {
 	}
 
 	private function __construct(){
+		add_action('init',                     array($this, 'start_session'            ));
 		add_action('admin_init',               array($this, 'masq_init'                ));
 		add_action('admin_footer',             array($this, 'masq_as_user_js'          ));
 		add_action('wp_ajax_masq_user',        array($this, 'ajax_masq_login'          ));
@@ -49,6 +50,16 @@ class WPMasquerade {
 		add_action('admin_bar_menu',           array($this, 'add_admin_menu'           ), 99);
 		add_action('admin_enqueue_scripts',    array($this, 'register_admin_bar_assets'));
 		add_action('wp_enqueue_scripts',       array($this, 'register_admin_bar_assets'));
+		add_action('wp_footer',                array($this, 'add_notification'         ), 99);
+		add_action('admin_footer',             array($this, 'add_notification'         ), 99);
+	}
+
+	public function start_session(){
+		if(!session_id())
+			session_start();
+
+		if(!is_user_logged_in() && isset($_SESSION['wpmsq_active']))
+			unset($_SESSION['wpmsq_active']);
 	}
 
 	public function register_admin_bar_assets(){
@@ -124,24 +135,32 @@ class WPMasquerade {
 		if(!isset($_POST['wponce']) || !wp_verify_nonce($_POST['wponce'], 'masq_once'))
 			wp_die('Security check');
 
-		$uid = filter_input(INPUT_POST, 'uid', FILTER_SANITIZE_NUMBER_INT);
+		$uid   = filter_input(INPUT_POST, 'uid', FILTER_SANITIZE_NUMBER_INT);
+		$reset = filter_input(INPUT_POST, 'reset', FILTER_VALIDATE_BOOLEAN);
 
-		if(!$uid)
+		if(!$reset && !$uid)
 			wp_die('Security Check');
 
-		$user_info = get_userdata($uid);
-		$uname = $user_info->user_login;
+		if($reset && !isset($_SESSION['wpmsq_active']))
+			wp_logout();
 
-		if(current_user_can('delete_users')){
-			wp_set_current_user($uid, $uname);
-			wp_set_auth_cookie($uid);
-			do_action('wp_login', $uname);
-			$new_user = wp_get_current_user();
-			if($new_user->ID == $uid){
-				echo 1;
-				exit();
+		$user_id   = $reset ? $_SESSION['wpmsq_active']->ID         : $uid;
+		$user_name = $reset ? $_SESSION['wpmsq_active']->user_login : get_userdata($uid);
+
+		if($reset){
+			unset($_SESSION['wpmsq_active']);
+		}else{
+			if(!isset($_SESSION['wpmsq_active']) && !$reset){
+				$_SESSION['wpmsq_active'] = wp_get_current_user();
 			}
 		}
+
+		wp_set_current_user($user_id, $user_name);
+		wp_set_auth_cookie($user_id);
+		do_action('wp_login', $user_name);
+
+		echo wp_get_current_user()->ID == $user_id ? 1 : 0;
+		exit();
 	}
 
 	public function ajax_get_users(){
@@ -175,9 +194,15 @@ class WPMasquerade {
 			'title' => 'Masquerade as...',
 			'meta'  => array('html' => $html)
 		);
-
 		$wp_admin_bar->add_node($args);
-
 	}
 
+	public function add_notification(){
+		if(isset($_SESSION['wpmsq_active'])){
+			$prev_user = $_SESSION['wpmsq_active'];
+			ob_start();
+			require 'partials/active-notification.php';
+			echo ob_get_clean();
+		}
+	}
 }

@@ -14,6 +14,12 @@
 		opacity: 0;
 		transform: translateY(-20px);
 		transition: all 100ms ease-in;
+		background: rgb(51, 51, 51);
+		padding: 8px;
+		border-radius: 0 0 2px 2px;
+		border-width: 0 1px 1px 1px;
+		border-style: solid;
+		border-color: #222;
 	}
 </style>
 
