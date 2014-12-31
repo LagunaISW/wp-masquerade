@@ -151,12 +151,11 @@ class WPMasquerade {
 		$user_id   = $reset ? $_SESSION['wpmsq_active']->ID         : $uid;
 		$user_name = $reset ? $_SESSION['wpmsq_active']->user_login : get_userdata($uid)->user_login;
 
-		if($reset){
+		// Flush the session if user requests reset OR user attempts to masquerade as the original user
+		if($reset || (isset($_SESSION['wpmsq_active']) && $_SESSION['wpmsq_active']->ID == $uid)){
 			unset($_SESSION['wpmsq_active']);
-		}else{
-			if(!isset($_SESSION['wpmsq_active']) && !$reset){
-				$_SESSION['wpmsq_active'] = wp_get_current_user();
-			}
+		}elseif(!$reset && !isset($_SESSION['wpmsq_active'])){
+			$_SESSION['wpmsq_active'] = wp_get_current_user();
 		}
 
 		wp_set_current_user($user_id, $user_name);
