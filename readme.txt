@@ -1,18 +1,16 @@
 === Masquerade ===
-Contributors: JR King
-Plugin URI: http://castle-creative.com/
+Contributors: JR King, EranSch
+Plugin URI: https://github.com/Swingline0/masquerade
 Author URI: http://castle-creative.com/
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
-Tested up to: 3.3.2
-Stable tag: 1.01
+Tested up to: 4.1
+Stable tag: 1.1.0
 License: General Public License version 2
-
-Adds a link to users.php that allows an administrator to login as that user without knowing the password.
 
 == Description ==
 
-This plugin adds an option to the User List in the admin area where you can click "Masquerade as User", you will be automatically logged in as that user and redirected to the home page.
+Allow Administrators to masquerade as other users of the same site. Adds a dropdown selection box to the admin bar as well as individual links in the dashboard's user view.
 
 == Installation ==
 
@@ -27,7 +25,10 @@ A: For security reasons, the link only appears to users that have the 'delete_us
 
 == Change Log ==
 
-= 1.01 =
+= 1.1.0 =
+* Big refactor, add admin bar user selection
+
+= 1.0.1 =
 * Added nonce security check to POST request
 
 = 1.0 =
