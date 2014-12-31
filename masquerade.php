@@ -84,7 +84,7 @@ class WPMasquerade {
 
 		wp_localize_script(
 			'wpmsq-admin-bar',
-			'wpmsq',
+			'wpmsqAdminBar',
 			array(
 				'ajaxurl' => admin_url('admin-ajax.php'),
 				'getUsersNonce' => wp_create_nonce('wpmsq_get_users_nonce'),
@@ -224,11 +224,12 @@ class WPMasquerade {
 
 		wp_localize_script(
 			'wpmsq-notification',
-			'wpmsq',
+			'wpmsqNotification',
 			array(
 				'ajaxurl' => admin_url('admin-ajax.php'),
 				'masqNonce' => wp_create_nonce('masq_once')
 			)
 		);
 	}
+
 }

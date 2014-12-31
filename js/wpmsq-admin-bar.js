@@ -4,7 +4,7 @@ jQuery(function($){
 	var $wpmasqSelectParent = $('#wp-admin-bar-wpmsq-ab-link');
 	var $wpmasqSelect = $wpmasqSelectParent.find('select');
 	$wpmasqSelectParent.one('mouseover', function(){
-		$.getJSON(wpmsq.ajaxurl + '?action=wpmasq_get_users&n=' + wpmsq.getUsersNonce)
+		$.getJSON(wpmsqAdminBar.ajaxurl + '?action=wpmasq_get_users&n=' + wpmsqAdminBar.getUsersNonce)
 			.done(function(response){
 				$wpmasqSelect.empty();
 				$.each(response, function(key, value){
@@ -23,10 +23,10 @@ jQuery(function($){
 	$wpmasqSelect.change(function(){
 		var data = {
 			action: 'masq_user',
-			wponce: wpmsq.masqNonce,
+			wponce: wpmsqAdminBar.masqNonce,
 			uid: $wpmasqSelect.val()
 		};
-		$.post(wpmsq.ajaxurl, data, function(response){
+		$.post(wpmsqAdminBar.ajaxurl, data, function(response){
 			if(response == '1'){
 				location.reload();
 			}
