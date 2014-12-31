@@ -42,16 +42,18 @@ class WPMasquerade {
 	}
 
 	private function __construct(){
-		add_action('init',                     array($this, 'start_session'            ));
-		add_action('admin_init',               array($this, 'masq_init'                ));
-		add_action('admin_footer',             array($this, 'masq_as_user_js'          ));
-		add_action('wp_ajax_masq_user',        array($this, 'ajax_masq_login'          ));
-		add_action('wp_ajax_wpmasq_get_users', array($this, 'ajax_get_users'           ));
-		add_action('admin_bar_menu',           array($this, 'add_admin_menu'           ), 99);
-		add_action('admin_enqueue_scripts',    array($this, 'register_admin_bar_assets'));
-		add_action('wp_enqueue_scripts',       array($this, 'register_admin_bar_assets'));
-		add_action('wp_footer',                array($this, 'add_notification'         ), 99);
-		add_action('admin_footer',             array($this, 'add_notification'         ), 99);
+		add_action('init',                     array($this, 'start_session'                ));
+		add_action('admin_init',               array($this, 'masq_init'                    ));
+		add_action('admin_footer',             array($this, 'masq_as_user_js'              ));
+		add_action('wp_ajax_masq_user',        array($this, 'ajax_masq_login'              ));
+		add_action('wp_ajax_wpmasq_get_users', array($this, 'ajax_get_users'               ));
+		add_action('admin_bar_menu',           array($this, 'add_admin_menu'               ), 99);
+		add_action('admin_enqueue_scripts',    array($this, 'register_admin_bar_assets'    ));
+		add_action('wp_enqueue_scripts',       array($this, 'register_admin_bar_assets'    ));
+		add_action('admin_enqueue_scripts',    array($this, 'register_notification_assets' ));
+		add_action('wp_enqueue_scripts',       array($this, 'register_notification_assets' ));
+		add_action('wp_footer',                array($this, 'add_notification'             ), 99);
+		add_action('admin_footer',             array($this, 'add_notification'             ), 99);
 	}
 
 	public function start_session(){
@@ -77,6 +79,8 @@ class WPMasquerade {
 			'wpmsq-admin-bar',
 			plugins_url('js/wpmsq-admin-bar.js', __FILE__),
 			'jquery-chosen', false, true );
+
+		wp_enqueue_style('wpmsq-admin-bar', plugins_url('css/wpmsq-admin-bar.css', __FILE__));
 
 		wp_localize_script(
 			'wpmsq-admin-bar',
@@ -204,5 +208,27 @@ class WPMasquerade {
 			require 'partials/active-notification.php';
 			echo ob_get_clean();
 		}
+	}
+
+	public function register_notification_assets(){
+
+		if(!isset($_SESSION['wpmsq_active']))
+			return;
+
+		wp_enqueue_style('wpmsq-notification', plugins_url('css/wpmsq-notification.css', __FILE__));
+
+		wp_enqueue_script(
+			'wpmsq-notification',
+			plugins_url('js/wpmsq-notification.js', __FILE__),
+			'jquery', false, true );
+
+		wp_localize_script(
+			'wpmsq-notification',
+			'wpmsq',
+			array(
+				'ajaxurl' => admin_url('admin-ajax.php'),
+				'masqNonce' => wp_create_nonce('masq_once')
+			)
+		);
 	}
 }

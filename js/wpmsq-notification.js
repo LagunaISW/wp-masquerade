@@ -1,0 +1,16 @@
+"use strict";
+jQuery(function($){
+	$('#wpmsq-revert-link').click(function(){
+		var ajax_url = wpmsq.ajaxurl;
+		var data = {
+			action: 'masq_user',
+			wponce: wpmsq.masqNonce,
+			reset: true
+		};
+		$.post(ajax_url, data, function(response){
+			if(response == '1'){
+				location.reload();
+			}
+		});
+	});
+});
