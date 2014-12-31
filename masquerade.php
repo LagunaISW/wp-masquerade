@@ -42,9 +42,41 @@ class WPMasquerade {
 	}
 
 	private function __construct(){
-		add_action('admin_init',        array($this, 'masq_init'      ));
-		add_action('admin_footer',      array($this, 'masq_as_user_js'));
-		add_action('wp_ajax_masq_user', array($this, 'ajax_masq_login'));
+		add_action('admin_init',               array($this, 'masq_init'                ));
+		add_action('admin_footer',             array($this, 'masq_as_user_js'          ));
+		add_action('wp_ajax_masq_user',        array($this, 'ajax_masq_login'          ));
+		add_action('wp_ajax_wpmasq_get_users', array($this, 'ajax_get_users'           ));
+		add_action('admin_bar_menu',           array($this, 'add_admin_menu'           ), 99);
+		add_action('admin_enqueue_scripts',    array($this, 'register_admin_bar_assets'));
+		add_action('wp_enqueue_scripts',       array($this, 'register_admin_bar_assets'));
+	}
+
+	public function register_admin_bar_assets(){
+		if(!is_super_admin() || !is_admin_bar_showing())
+			return;
+
+		wp_enqueue_script(
+			'jquery-chosen',
+			plugins_url('vendor/chosen_v1.3.0/chosen.jquery.min.js', __FILE__),
+			'jquery', false, true );
+
+		wp_enqueue_style('jquery-chosen', plugins_url('css/chosen-modified.css', __FILE__));
+
+		wp_enqueue_script(
+			'wpmsq-admin-bar',
+			plugins_url('js/wpmsq-admin-bar.js', __FILE__),
+			'jquery-chosen', false, true );
+
+		wp_localize_script(
+			'wpmsq-admin-bar',
+			'wpmsq',
+			array(
+				'ajaxurl' => admin_url('admin-ajax.php'),
+				'getUsersNonce' => wp_create_nonce('wpmsq_get_users_nonce'),
+				'masqNonce' => wp_create_nonce('masq_once')
+			)
+		);
+
 	}
 
 	public function masq_init(){
@@ -110,6 +142,42 @@ class WPMasquerade {
 				exit();
 			}
 		}
+	}
+
+	public function ajax_get_users(){
+
+		if(!isset($_GET['n']) || !wp_verify_nonce($_GET['n'], 'wpmsq_get_users_nonce'))
+			wp_die('Security check');
+
+		if(!current_user_can('delete_users'))
+			wp_die('Security check');
+
+		$users = get_users(array(
+			'fields' => array('ID','user_nicename'),
+			));
+
+		header('Content-Type: application/json');
+		echo json_encode($users);
+		exit();
+	}
+
+	public function add_admin_menu($wp_admin_bar){
+
+		if(!is_super_admin() || !is_admin_bar_showing())
+			return;
+
+		ob_start();
+		require 'partials/admin-bar-node.php';
+		$html = ob_get_clean();
+
+		$args = array(
+			'id'    => 'wpmsq-ab-link',
+			'title' => 'Masquerade as...',
+			'meta'  => array('html' => $html)
+		);
+
+		$wp_admin_bar->add_node($args);
+
 	}
 
 }
