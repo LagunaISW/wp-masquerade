@@ -1,6 +1,6 @@
 === WP Masquerade ===
 Contributors: swingline0
-Plugin URI: https://github.com/Swingline0/masquerade
+Plugin URI: https://github.com/Swingline0/wp-masquerade
 Author URI: http://eran.sh
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
