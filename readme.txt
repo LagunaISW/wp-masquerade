@@ -1,7 +1,7 @@
-=== Masquerade ===
-Contributors: JR King, EranSch
+=== WP Masquerade ===
+Contributors: swingline0
 Plugin URI: https://github.com/Swingline0/masquerade
-Author URI: http://castle-creative.com/
+Author URI: http://eran.sh
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
 Tested up to: 4.1
@@ -10,7 +10,9 @@ License: General Public License version 2
 
 == Description ==
 
-Allow Administrators to masquerade as other users of the same site. Adds a dropdown selection box to the admin bar as well as individual links in the dashboard's user view.
+Allow WordPress administrators to masquerade as other users on their site. Adds a dropdown select box to the admin bar as well as individual links in the dashboard's user view. WP Masquerade also allows the user to revert back to their previous session for easy return to the admin user.
+
+Thanks to JR King (castle-creative.com) for the initial development of the plugin was forked from.
 
 == Installation ==
 
