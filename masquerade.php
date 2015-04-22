@@ -5,7 +5,7 @@
 * Plugin URI: https://github.com/Swingline0/masquerade
 * Author: JR King/Eran Schoellhorn
 * Author URI: https://github.com/Swingline0/masquerade
-* Version: 1.01
+* Version: 1.1.0
 * License: GPL2
 */
 
