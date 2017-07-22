@@ -5,7 +5,7 @@ Author URI: http://Jhonatanlaguna.com
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
 Tested up to: 4.8
-Stable tag: 1.1.0
+Stable tag: 2.0.0
 License: General Public License version 2
 
 == Description ==
