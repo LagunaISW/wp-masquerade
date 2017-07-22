@@ -68,3 +68,11 @@
 		  -webkit-transform: scale(1.0);
 	  }
 }
+
+li#wp-admin-bar-wpmsq-ab-link {
+    height: 10px;
+}
+
+form#wpmsq-user {
+    height: 30px;
+}
