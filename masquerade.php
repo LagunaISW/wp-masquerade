@@ -1,16 +1,16 @@
 <?php
 /**
-* Plugin Name: WP Masquerade
+* Plugin Name: WP Users Masquerade
 * Description: Allow WP Admin users to easily masquerade as other users on a site
-* Plugin URI: https://github.com/Swingline0/masquerade
-* Author: JR King/Eran Schoellhorn
-* Author URI: https://github.com/Swingline0/masquerade
-* Version: 1.1.0
+* Plugin URI: https://github.com/LagunaISW/wp-masquerade
+* Author: LagunaISW/Jhonatan Laguna
+* Author URI: https://github.com/LagunaISW
+* Version: 2.0.0
 * License: GPL2
 */
 
 /*
-Copyright (C) 2014 Eran Schoellhorn me@eran.sh
+Copyright (C) 2017 Jhonatan Laguna jlaguna@nearsoft.com
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as

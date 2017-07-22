@@ -1,10 +1,10 @@
-=== WP Masquerade ===
-Contributors: swingline0
-Plugin URI: https://github.com/Swingline0/wp-masquerade
-Author URI: http://eran.sh
+=== WP Users Masquerade ===
+Contributors: LagunaISW
+Plugin URI: https://github.com/LagunaISW/wp-masquerade
+Author URI: http://Jhonatanlaguna.com
 Tags: admin login, login as user, masquerade as user, user login, admin login as user
 Requires at least: 2.8
-Tested up to: 4.1
+Tested up to: 4.8
 Stable tag: 1.1.0
 License: General Public License version 2
 
@@ -12,7 +12,7 @@ License: General Public License version 2
 
 Allow WordPress administrators to masquerade as other users on their site. Adds a dropdown select box to the admin bar as well as individual links in the dashboard's user view. WP Masquerade also allows the user to revert back to their previous session for easy return to the admin user.
 
-Thanks to JR King (castle-creative.com) for the initial development of the plugin was forked from.
+Thanks to JR King (castle-creative.com) and swingline0 for the initial development of the plugin was forked from.
 
 == Installation ==
 
@@ -26,6 +26,9 @@ Q: Why doesn't the Masquerade as User" link appear in the user list?
 A: For security reasons, the link only appears to users that have the 'delete_users' capability.
 
 == Change Log ==
+
+= 2.0.0 =
+* Second stable release
 
 = 1.1.0 =
 * Big refactor, add admin bar user selection
